@@ -5,13 +5,10 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './users/entities/user.entity';
+import { Doctor } from './users/entities/doctor.entity';
+import { Role } from './users/entities/role.entity';
 
-@Module({
-  
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, UsersModule],
-  controllers: [AppController],
-  providers: [AppService]
-})
 
 @Module({
   imports: [
@@ -27,11 +24,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
-        entities: [],  // Aquí pones tus entidades
+        entities: [User, Doctor, Role],  // Aquí pones tus entidades
         synchronize: true,
       }),
       inject: [ConfigService],
     }), AuthModule, UsersModule
   ],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule {}

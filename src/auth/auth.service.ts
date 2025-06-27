@@ -8,20 +8,21 @@ import * as bcrypt from 'bcrypt';
 export class AuthService {
   constructor(private usersService: UsersService,private jwtService: JwtService ) {}
 
-
-  async validateUser(useremail: string, pass: string): Promise<any> {
+async validateUser(useremail: string, pass: string): Promise<any> {
   const user = await this.usersService.findOne(useremail);
-  
-  // ⚠️ Compara la contraseña ingresada con la hasheada
+
+  if (!user) return null; // Evita error si no existe
+
   const isMatch = await bcrypt.compare(pass, user.password);
 
-  if (user && isMatch) {
+  if (isMatch) {
     const { password, ...result } = user;
     return result;
   }
 
   return null;
 }
+
   async createJWT(user: any) {
     const payload = { username: user.name, sub: user.id };
     return {

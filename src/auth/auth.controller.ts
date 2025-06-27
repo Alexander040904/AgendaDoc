@@ -3,6 +3,10 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { AuthService } from './auth.service';
 import { UsersService } from 'src/users/users.service';
 import { UserDto } from 'src/users/types/user.dto';
+import { CreateUserDto } from 'src/users/dto/user.dto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CreateDoctorDto } from 'src/users/dto/doctor.dto';
+
 
 @Controller('auth')
 export class AuthController {
@@ -24,14 +28,20 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() userData: UserDto) {
+  async register(@Body() userData: CreateUserDto) {
     const user = await this.usersService.create(userData);
 
-  
     return this.authService.createJWT(user);
 
   
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('registerDoctor')
+  async registerDoctors(@Body() userData: CreateDoctorDto){
+    const user = await this.usersService.createDoctor(userData);
+  }
+  
 }
 
 
