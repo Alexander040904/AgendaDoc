@@ -26,7 +26,7 @@ import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         entities: [User, Doctor, Role],  // Aquí pones tus entidades
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }), AuthModule, UsersModule
