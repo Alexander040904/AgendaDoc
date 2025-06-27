@@ -44,6 +44,7 @@ export class AuthController {
   @Post('registerDoctor')
   async registerDoctors(@Body() userData: CreateDoctorDto){
     const user = await this.usersService.createDoctor(userData);
+    return user;
   }
   
 }

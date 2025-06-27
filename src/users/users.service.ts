@@ -25,34 +25,6 @@ export class UsersService {
     this.#users = [];
   }
 
-  /*
-  findOne(useremail: string): User {
-    const user = this.#users.find((user) => user.email === useremail);
-    if (!user) {
-      throw new NotFoundException(`User con email ${useremail} no encontrado`);
-    }
-    return user;
-  }
-*/
-  /*
-  async create(user: UserDto): Promise<User> {
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-      const maxId = this.#users.reduce(
-      (max, user) => (user.id > max ? user.id : max),
-      0,
-    );
-    const newUser: User = {
-      id: maxId + 1,
-      email: user.email,
-      name: user.name,
-      password: hashedPassword,
-      active:true
-    };
-
-    this.#users.push(newUser);
-    return newUser;
-  }
-*/
   findOne(email: string): Promise<User | null> {
     return this.usersRepository.findOne({
       where: { email: email },
