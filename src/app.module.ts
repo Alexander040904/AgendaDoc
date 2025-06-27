@@ -8,7 +8,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/entities/user.entity';
 import { Doctor } from './users/entities/doctor.entity';
 import { Role } from './users/entities/role.entity';
-
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -31,6 +32,9 @@ import { Role } from './users/entities/role.entity';
     }), AuthModule, UsersModule
   ],
   controllers: [AppController],
-  providers: [AppService]
+  providers: [AppService, {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },]
 })
 export class AppModule {}
