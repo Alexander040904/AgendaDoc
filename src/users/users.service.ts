@@ -1,86 +1,63 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-//import { User } from './types/user.type';
+// src/users/users.service.ts
+import { Injectable, ConflictException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { use } from 'passport';
-import { UserDto } from './types/user.dto';
-import { User } from './entities/user.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { Role } from './entities/role.entity';
+import { PrismaService } from '../prisma/prisma.service';
 import { CreateUserDto } from './dto/user.dto';
-import { Doctor } from './entities/doctor.entity';
 import { CreateDoctorDto } from './dto/doctor.dto';
-import { ConflictException } from '@nestjs/common';
+
+
 @Injectable()
 export class UsersService {
-  #users: User[];
-  constructor(
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
-    @InjectRepository(Role)
-    private rolesRepository: Repository<Role>,
-    @InjectRepository(Doctor)
-    private doctorsRepository: Repository<Doctor>,
-  ) {
-    this.#users = [];
-  }
+  constructor(private prisma: PrismaService) {}
 
-  findOne(email: string): Promise<User | null> {
-    return this.usersRepository.findOne({
-      where: { email: email },
-      relations: ['role'],
+  async findOne(email: string) {
+
+    return this.prisma.user.findFirst({
+      where: { email },
+      include: { role: true },
     });
   }
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto) {
     const { name, email, password, age, role_id } = createUserDto;
 
-    // Verificar si el email ya existe
-    const existingUser = await this.usersRepository.findOne({
-      where: { email },
-    });
+    const existingUser = await this.prisma.user.findFirst({ where: { email } });
     if (existingUser) {
       throw new ConflictException('El correo electrónico ya está en uso');
     }
 
-    // Verificar si el rol existe
-    const role = await this.rolesRepository.findOneBy({ id: role_id });
+    const role = await this.prisma.role.findUnique({ where: { id: role_id } });
     if (!role) {
-      throw  new ConflictException('Rol no encontrado');
+      throw new ConflictException('Rol no encontrado');
     }
 
-    // Hashear contraseña
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Crear usuario
-    const user = this.usersRepository.create({
-      name,
-      email,
-      password: hashedPassword,
-      age,
-      role,
+    return this.prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        age,
+        role: { connect: { id: role_id } },
+      },
     });
-
-    return this.usersRepository.save(user);
   }
 
-  async createDoctor(createDoctorDto: CreateDoctorDto): Promise<Doctor> {
+  async createDoctor(createDoctorDto: CreateDoctorDto) {
     const { user_id, specialty, consultation_amount } = createDoctorDto;
 
-    const user = await this.usersRepository.findOne({
-      where: { id: user_id },
-    });
-
+    const user = await this.prisma.user.findUnique({ where: { id: user_id } });
     if (!user) {
       throw new ConflictException('Usuario no encontrado');
     }
 
-    const doctor = this.doctorsRepository.create({
-      specialty,
-      consultation_amount,
-      user,
+    return this.prisma.doctor.create({
+      data: {
+        specialty,
+        consultationAmount: consultation_amount,
+        user: { connect: { id: user_id } },
+      },
     });
-
-    return this.doctorsRepository.save(doctor);
   }
 }

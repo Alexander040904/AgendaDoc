@@ -1,3 +1,4 @@
+// src/auth/auth.module.ts
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersModule } from 'src/users/users.module';
@@ -12,6 +13,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
   imports: [
     UsersModule,
     PassportModule,
+    ConfigModule, // ✅ agregar esta línea
 
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -20,10 +22,10 @@ import { JwtStrategy } from './strategies/jwt.strategy';
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: { expiresIn: configService.get<string>('JWT_EXP') },
       }),
-    })
-    
-  ], //Linea agregada
+    }),
+  ],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}
+

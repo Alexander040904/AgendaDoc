@@ -18,9 +18,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migration:generate": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js migration:generate -d src/data-source.ts",
-    "migration:run": "typeorm migration:run -d src/data-source.ts",
-    "migration:revert": "typeorm migration:revert -d src/data-source.ts"
+    "migration": "npx prisma migrate dev --name"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -30,6 +28,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/typeorm": "^11.0.0",
+    "@prisma/client": "^6.11.1",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
@@ -62,6 +61,7 @@
     "globals": "^16.0.0",
     "jest": "^29.7.0",
     "prettier": "^3.4.2",
+    "prisma": "^6.11.1",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",
