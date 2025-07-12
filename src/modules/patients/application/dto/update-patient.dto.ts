@@ -1,11 +1,4 @@
-import {
-  IsOptional,
-  IsString,
-  IsNumber,
-  IsDecimal,
-  IsIn,
-  MaxLength,
-} from 'class-validator';
+import {IsOptional,IsString,IsNumber,IsIn,MaxLength,Min,} from 'class-validator';
 
 export class UpdatePatientDto {
   @IsOptional()
@@ -21,15 +14,13 @@ export class UpdatePatientDto {
   blood_type?: string;
 
   @IsOptional()
-  @IsDecimal({ decimal_digits: '0,2' }, {
-    message: 'El peso debe ser un número decimal con hasta 2 decimales.',
-  })
+  @IsNumber({}, { message: 'El peso debe ser un número decimal.' })
+  @Min(0, { message: 'El peso no puede ser negativo.' })
   weight?: number;
 
   @IsOptional()
-  @IsDecimal({ decimal_digits: '0,2' }, {
-    message: 'La estatura debe ser un número decimal con hasta 2 decimales.',
-  })
+  @IsNumber({}, { message: 'La estatura debe ser un número decimal.' })
+  @Min(0, { message: 'La estatura no puede ser negativa.' })
   height?: number;
 
   @IsOptional()

@@ -1,12 +1,4 @@
-import {
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsNumber,
-  IsDecimal,
-  IsIn,
-  MaxLength,
-} from 'class-validator';
+import {IsNotEmpty,IsOptional,IsString,IsNumber,IsIn,MaxLength,Min,} from 'class-validator';
 
 export class CreatePatientDto {
   @IsNotEmpty({ message: 'El ID de usuario es obligatorio.' })
@@ -22,16 +14,14 @@ export class CreatePatientDto {
   blood_type?: string;
 
   @IsNotEmpty()
-  @IsDecimal({ decimal_digits: '0,2' }, {
-    message: 'El peso debe ser un número decimal con hasta 2 decimales.',
-  })
-  weight?: number;
+ @IsNumber({}, { message: 'El peso debe ser un número.' })
+ @Min(0, { message: 'El peso no puede ser negativo.' })
+ weight?: number;
 
-  @IsNotEmpty()
-  @IsDecimal({ decimal_digits: '0,2' }, {
-    message: 'La estatura debe ser un número decimal con hasta 2 decimales.',
-  })
-  height?: number;
+ @IsNotEmpty()
+ @IsNumber({}, { message: 'La estatura debe ser un número.' })
+ @Min(0, { message: 'La estatura no puede ser negativa.' })
+ height?: number;
 
   @IsNotEmpty()
   @IsString({ message: 'El historial médico debe ser una cadena de texto.' })
