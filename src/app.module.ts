@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/users.module';
+import { DoctorsModule } from './modules/doctors/doctors.module';
+
 
 
 
@@ -12,6 +14,7 @@ import { UserModule } from './modules/users/users.module';
     ConfigModule.forRoot({ isGlobal: true }), // ✅ agregar esto
     AuthModule,
     UserModule,
+    DoctorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
