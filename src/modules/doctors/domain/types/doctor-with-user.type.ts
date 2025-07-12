@@ -11,6 +11,6 @@ export interface DoctorWithUser {
     name: string;
     email: string;
     age: number;
-    roleId: number;
+    role_id: number;
   };
 }
