@@ -1,8 +1,9 @@
 
 import { AvailableSchedule } from '../../domain/entities/available-schedule';
 import { AvailableScheduleRepositoryPort } from '../../domain/interfaces/available-schedule-repository.interface';
+import { Injectable } from '@nestjs/common';
 
-
+@Injectable()
 export class UpdateAvailableScheduleUseCase {
   constructor(
     private readonly repository: AvailableScheduleRepositoryPort

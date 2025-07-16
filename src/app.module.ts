@@ -23,7 +23,7 @@ import { AvailableSchedulesModule } from './modules/available-schedules/availabl
     PatientsModule,
     AvailableSchedulesModule,
   ],
-  controllers: [AppController, PatientsController, AvailableSchedulesController],
+  controllers: [AppController, PatientsController],
   providers: [
     AppService,
     {

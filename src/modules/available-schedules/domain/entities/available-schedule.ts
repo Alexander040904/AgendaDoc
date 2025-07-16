@@ -14,8 +14,7 @@ export class AvailableSchedule {
     dayOfWeek: string;
     startTime: string;
     endTime: string;
-    createdAt?: Date;
-    updatedAt?: Date;
+
   }) {
     this.id = data.id;
     this.doctorId = data.doctorId;

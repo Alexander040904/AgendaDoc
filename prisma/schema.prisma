@@ -86,8 +86,8 @@ model AvailableSchedule {
   id          Int      @id @default(autoincrement())
   doctorId    Int
   dayOfWeek   String   @db.VarChar(25)
-  startTime   DateTime @db.Time
-  endTime     DateTime @db.Time
+ startTime  String   
+  endTime    String
 
   doctor      Doctor   @relation(fields: [doctorId], references: [id])
 
