@@ -34,9 +34,37 @@ model User {
   role       Role     @relation(fields: [role_id], references: [id])
   
   patient  Patient?
+  doctor     Doctor?
 
 }
 
+
+model Doctor {
+  id                 Int                 @id @default(autoincrement())
+  user_id             Int                 @unique
+  consultationAmount Int
+
+  user               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  doctorDisciplines  DoctorDiscipline[]
+}
+
+model Discipline {
+  id                Int                 @id @default(autoincrement())
+  discipline        String
+
+  doctorDisciplines DoctorDiscipline[]
+}
+
+model DoctorDiscipline {
+  id           Int        @id @default(autoincrement())
+  doctorId     Int
+  disciplineId Int
+
+  doctor      Doctor     @relation(fields: [doctorId], references: [id])
+  discipline  Discipline @relation(fields: [disciplineId], references: [id])
+
+  @@unique([doctorId, disciplineId])
+}
 
 model Patient {
   id               Int      @id @default(autoincrement())
