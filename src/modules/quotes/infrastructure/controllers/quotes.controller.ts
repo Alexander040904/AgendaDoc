@@ -3,7 +3,7 @@ import { CreateQuoteUseCase } from '../../application/use-cases/create-quote.use
 import { UpdateQuoteUseCase } from '../../application/use-cases/update-quote.use-case';
 import { CreateQuoteDto } from '../../application/dto/create-quote.dto';
 import { UpdateQuoteDto } from '../../application/dto/update-quote.dto';
-
+import { Public } from 'src/core/decorators/public.decorator';
 
 @Controller('quotes')
 export class QuotesController {
@@ -12,12 +12,14 @@ export class QuotesController {
     private readonly updateQuoteUseCase: UpdateQuoteUseCase,
   ) { }
 
+  @Public()
   @Post('register')
   async register(@Body() quoteData: CreateQuoteDto) {
     const quote = await this.createQuoteUseCase.execute(quoteData);
     return quote;
   }
 
+  @Public()
   @Patch(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
