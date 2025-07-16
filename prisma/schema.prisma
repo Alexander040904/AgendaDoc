@@ -35,6 +35,7 @@ model User {
   
   patient  Patient?
   doctor     Doctor?
+  
 
 }
 
@@ -46,6 +47,7 @@ model Doctor {
 
   user               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
   doctorDisciplines  DoctorDiscipline[]
+  quotes  Quote[]
 }
 
 model Discipline {
@@ -78,4 +80,18 @@ model Patient {
   updated_at        DateTime @updatedAt
 
   user             User     @relation(fields: [user_id], references: [id])
+  quotes  Quote[]
+}
+
+model Quote {
+  id         Int      @id @default(autoincrement())
+  doctorId   Int
+  patientId  Int
+  date       DateTime
+  status     Boolean
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  doctor     Doctor   @relation(fields: [doctorId], references: [id])
+  patient    Patient  @relation(fields: [patientId], references: [id])
 }
