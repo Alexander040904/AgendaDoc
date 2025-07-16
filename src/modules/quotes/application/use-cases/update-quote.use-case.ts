@@ -12,8 +12,7 @@ export class UpdateQuoteUseCase {
       doctorId: dto.doctorId,
       patientId: dto.patientId,
       date: dto.date ? new Date(dto.date) : undefined,
-      status: dto.status,
-      updatedAt: new Date(),
+      status: dto.status
     };
     return await this.quoteRepository.updatePartial(id, partialUpdate);
   }
