@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/users/users.module';
 import { DoctorsModule } from './modules/doctors/doctors.module';
+import { PatientsModule } from './modules/patients/patients.module';
+import { PatientsController } from './modules/patients/infrastructure/controllers/patients.controller';
 
 import { JwtAuthGuard } from './modules/auth/infraestructure/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
@@ -16,8 +18,9 @@ import { APP_GUARD } from '@nestjs/core';
     AuthModule,
     UserModule,
     DoctorsModule,
+    PatientsModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PatientsController],
   providers: [
     AppService,
     {

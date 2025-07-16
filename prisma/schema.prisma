@@ -32,9 +32,12 @@ model User {
   updatedAt  DateTime @updatedAt          @map("updated_at")
 
   role       Role     @relation(fields: [role_id], references: [id])
+  
+  patient  Patient?
   doctor     Doctor?
 
 }
+
 
 model Doctor {
   id                 Int                 @id @default(autoincrement())
@@ -63,3 +66,16 @@ model DoctorDiscipline {
   @@unique([doctorId, disciplineId])
 }
 
+model Patient {
+  id               Int      @id @default(autoincrement())
+  user_id           Int      @unique
+  blood_type        String?  @db.VarChar(5)    
+  weight           Decimal? @db.Decimal(5, 2)  
+  height           Decimal? @db.Decimal(4, 2)  
+  medical_history   String?  @db.Text
+  emergency_contact String?  @db.VarChar(150)
+  created_at        DateTime @default(now())
+  updated_at        DateTime @updatedAt
+
+  user             User     @relation(fields: [user_id], references: [id])
+}
