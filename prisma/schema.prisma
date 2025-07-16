@@ -46,6 +46,8 @@ model Doctor {
 
   user               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
   doctorDisciplines  DoctorDiscipline[]
+  availableSchedules AvailableSchedule[]
+
 }
 
 model Discipline {
@@ -78,4 +80,16 @@ model Patient {
   updated_at        DateTime @updatedAt
 
   user             User     @relation(fields: [user_id], references: [id])
+}
+
+model AvailableSchedule {
+  id          Int      @id @default(autoincrement())
+  doctorId    Int
+  dayOfWeek   String   @db.VarChar(25)
+  startTime   DateTime @db.Time
+  endTime     DateTime @db.Time
+
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+
+  
 }
