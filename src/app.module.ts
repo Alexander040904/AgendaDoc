@@ -11,6 +11,7 @@ import { PatientsController } from './modules/patients/infrastructure/controller
 
 import { JwtAuthGuard } from './modules/auth/infraestructure/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { QuotesModule } from './modules/quotes/quotes.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { APP_GUARD } from '@nestjs/core';
     UserModule,
     DoctorsModule,
     PatientsModule,
+    QuotesModule,
   ],
   controllers: [AppController, PatientsController],
   providers: [
