@@ -22,7 +22,7 @@ import { PrismaPatientRepository } from './infrastructure/repositories/prisma-pa
         },
     ],
 
-    exports:[CreatePatientUseCase],
+    exports:[CreatePatientUseCase, GetPatientByIdUseCase, UpdatePatientUseCase],
     controllers: [PatientsController]
 })
 export class PatientsModule {}

@@ -35,18 +35,29 @@ export class PrismaPatientRepository implements PatientRepositoryPort {
   }
 
   async updatePartial(id: number, patient: Partial<Patient>): Promise<Patient | null> {
-    try {
-      const updated = await this.prisma.patient.update({
-        where: { id },
-        data: {
-          ...(patient.bloodType !== undefined && { blood_type: patient.bloodType }),
-          ...(patient.weight !== undefined && { weight: patient.weight }),
-          ...(patient.height !== undefined && { height: patient.height }),
-          ...(patient.medicalHistory !== undefined && { medical_history: patient.medicalHistory }),
-          ...(patient.emergencyContact !== undefined && { emergency_contact: patient.emergencyContact }),
-        },
-      });
-      return PatientMapper.toDomain(updated);
+  try {
+    console.log("repopsitory");
+    
+    console.log(patient);
+    const result = await this.prisma.patient.update({
+      where: { id },
+      
+      
+      data: {
+      ...(patient.bloodType !== undefined && { blood_type: patient.bloodType }),
+      ...(patient.weight !== undefined && { weight: patient.weight }),
+      ...(patient.height !== undefined && { height: patient.height }),
+      ...(patient.medicalHistory !== undefined && { medical_history: patient.medicalHistory }),
+      ...(patient.emergencyContact !== undefined && { emergency_contact: patient.emergencyContact }),
+        
+      },
+    });
+    console.log(result);
+    
+
+    return PatientMapper.toDomain(result);
+    
+   
     } catch (error) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
