@@ -47,7 +47,12 @@ model Doctor {
 
   user               User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
   doctorDisciplines  DoctorDiscipline[]
+
   quotes  Quote[]
+
+  availableSchedules AvailableSchedule[]
+
+
 }
 
 model Discipline {
@@ -94,4 +99,16 @@ model Quote {
 
   doctor     Doctor   @relation(fields: [doctorId], references: [id])
   patient    Patient  @relation(fields: [patientId], references: [id])
+}
+
+model AvailableSchedule {
+  id          Int      @id @default(autoincrement())
+  doctorId    Int
+  dayOfWeek   String   @db.VarChar(25)
+ startTime  String   
+  endTime    String
+
+  doctor      Doctor   @relation(fields: [doctorId], references: [id])
+
+  
 }
