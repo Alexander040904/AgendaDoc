@@ -11,6 +11,8 @@ import { PatientsController } from './modules/patients/infrastructure/controller
 
 import { JwtAuthGuard } from './modules/auth/infraestructure/guards/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { AvailableSchedulesController } from './modules/available-schedules/infraestructure/controller/available-schedules.controller';
+import { AvailableSchedulesModule } from './modules/available-schedules/available-schedules.module';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { APP_GUARD } from '@nestjs/core';
     UserModule,
     DoctorsModule,
     PatientsModule,
+    AvailableSchedulesModule,
   ],
   controllers: [AppController, PatientsController],
   providers: [
